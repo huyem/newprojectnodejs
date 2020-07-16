@@ -1,9 +1,7 @@
-
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 5000;
-//co nghia la neu kog co bieen nao khac thi c=van chajy qua cong 5000
-app.listen(PORT,function () {
+
+app.listen(6010,function () {
     console.log("server is running...");
 });
 app.use(express.static("public"));
@@ -28,7 +26,7 @@ app.get("/about-us",function (req,res) {
 });
 const fs = require("fs");
 app.get("/danh-sach-thanh-pho",function (req,res) {
-    let data = fs.readFileSync("data/data.json","utf-8");
+    let data = fs.readFileSync("data/thanhpho.json","utf-8");
     let cities = JSON.parse(data);
     res.render("cities",{
         cities:cities
@@ -38,7 +36,7 @@ app.get("/danh-sach-thanh-pho",function (req,res) {
 app.get("/thanh-pho/:id",function (req,res) {
     let cityId = req.params.id;
     let city = {};
-    let data = fs.readFileSync("data/data.json","utf-8");
+    let data = fs.readFileSync("data/thanhpho.json","utf-8");
     let cities = JSON.parse(data);
     cities.map(function (e) {
         if(e.id == cityId){
@@ -48,24 +46,35 @@ app.get("/thanh-pho/:id",function (req,res) {
     res.render("city",{
         city:city
     });
+})
+const PORT = process.env.PORT || 5000;
+app.listen(PORT,function () {
+    console.log("server is running...");
 });
 
-app.get("/api/messages",function (req,res) {
-    let data=[
+app.get("api/messages",function (req,res) {
+    let data = [
         {
-            msg:"xin chao",
-            name:"luna"
+            msg: "hello",
+            name: "Luna"
         },
         {
-            msg:"m di choi kog",
-            name:"luna"
-        }
+            msg: "hello",
+            name: "Luna"
+        },
+        {
+            msg: "hello",
+            name: "Luna"
+        },
+        {
+            msg: "hello",
+            name: "Luna"
+        },
     ];
     let rs = {
-      status: true,
-      message:"success",
-      data: data
+        status: true,
+        message: "Success",
+        data:data
     };
     res.send(rs);
-    // day la lam api va api chi su dung trong noi bo trang
 });
